@@ -1,0 +1,46 @@
+<%= render '/shared/static_navbar' %>
+
+<br><br><br><br>
+<div class="container px-4 px-lg-5">
+  <div class="row">
+    <div class="col-md-12">
+      <%= link_to 'Back', location_path(@location) %>
+    </div>
+    <div id="image-carousel" 
+      class="carousel slide" 
+      data-interval="false" 
+    >
+      <div class="carousel-inner">
+        <% @attachments.each_with_index do |attch| %>
+          <% image = attch.image %>
+          <% classes = @active_image_id == image.id.to_s ? 'active' : '' %>
+          <div class="carousel-item item <%= classes %>">
+            <%= image_tag(
+              @location.large_path(image), class: "d-block w-100"
+            ) %>
+          </div>
+        <% end %>
+      </div>
+      <a 
+        class="carousel-control-prev" 
+        href="#image-carousel" 
+        role="button" 
+        data-slide="prev"
+      >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a 
+        class="carousel-control-next" 
+        href="#image-carousel" 
+        role="button" 
+        data-slide="next"
+      >
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>

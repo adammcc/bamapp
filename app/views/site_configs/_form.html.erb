@@ -1,0 +1,22 @@
+<%= form_with(model: site_config, local: true) do |form| %>
+  <% if site_config.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(site_config.errors.count, "error") %> prohibited this site_config from being saved:</h2>
+
+      <ul>
+      <% site_config.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <strong><%= form.label :main_image_path, class: "block-label" %></strong>
+    <%= form.text_area :main_image_path %>
+  </div><br>
+
+  <div class="actions ">
+    <%= form.submit 'Submit', :class => 'btn btn-primary' %>
+  </div><br>
+<% end %>

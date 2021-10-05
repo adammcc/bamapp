@@ -1,0 +1,75 @@
+<p id="notice"><%= notice %></p>
+<!-- Navigation-->
+<%= render '/shared/static_navbar' %>
+
+<h2 class="mb-5 text-center pt-6">My Portfolio</h2>
+<div class="container my-4">
+  <hr class="mb-5"/>
+  <div class="row">
+
+<!--     <%# @locations.each do |loc| %>
+      <div class="col-lg-4 mb-4">
+       <%#= link_to location_path(loc) do %>
+          <div class="image-container">
+            <div class="overlay"></div>
+            <%# if loc&.path %>
+              <img
+                src="<%#= loc&.path %>"
+                class="img-fluid mb-4"
+                alt=""
+              />
+            <%# elsif loc.images.attached? %>
+              <%#= image_tag(loc.thumb_path(loc.images.last), class: "img-fluid mb-4", style: 'width:100%;') %>
+            <%# end %>
+
+            <div class="caption">
+              <div class="blur"></div>
+              <div class="caption-text">
+                <h1><%#= loc.name %></h1>
+                <p class="more-photos-btn">More Photos</p>
+              </div>
+            </div>
+          </div>
+        <%# end %>
+      </div>
+    <%# end %> -->
+
+    <% @locations.find_in_batches(
+      batch_size: (@locations.count.to_f / 3).ceil
+    ).with_index do |group, i| %>
+      <% classes = i == 0 ? "" : "col-md-6" %>
+      <div class="col-lg-4 mb-4 <%= classes %>">
+        <% group.each do |loc| %>
+          <%= link_to location_path(loc) do %>
+            <div class="image-container">
+              <div class="overlay"></div>
+              <% if loc&.path %>
+                <img
+                  src="<%= loc&.path %>"
+                  class="img-fluid mb-4"
+                  alt=""
+                />
+              <% elsif loc.attachments.any? && loc.attachments.last.image.attached? %>
+                <%= image_tag(
+                  loc.thumb_path(loc.attachments.last.image),
+                  class: "img-fluid mb-4", style: 'width:100%;') 
+                %>
+              <% end %>
+
+              <div class="caption">
+                <div class="blur"></div>
+                <div class="caption-text">
+                  <h1><%= loc.name %></h1>
+                  <p class="more-photos-btn">More Photos</p>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<%= link_to 'New Location', new_location_path %> <br>
+<%= link_to 'Site Settings', edit_site_config_path(SiteConfig.first) %>

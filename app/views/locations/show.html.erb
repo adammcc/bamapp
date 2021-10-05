@@ -1,0 +1,87 @@
+<%= render '/shared/static_navbar' %>
+
+<br><br><br><hr>
+<div class="container">
+  <div class="row justify-content-start">
+    <p id="notice"><%= notice %></p>
+    <h1><%= @location.name %></h1>
+    <p class="col-md-6"><%= @location.description %></p>
+    <div class="col-md-12 action-links">
+      <%= link_to 'Back', locations_path %> |
+      <%= link_to 'Edit', edit_location_path(@location) %> |
+      <%= link_to 'Delete', @location, method: :delete, data: { confirm: 'Are you sure?' } %>
+      <hr>
+    </div><br><br><br>
+    <div class="container">
+      <div class="row">
+        <% @location.attachments.find_in_batches(
+          batch_size: (@location.attachments.count.to_f / 3).ceil
+        ).with_index do |group, i| %>
+          <div class="col-lg-4 mb-4">
+            <% group.each do |attachment| %>
+              <% image = attachment.image %>
+              <div class="bam-image-container">
+                <%= link_to location_path(@location) do %>
+                  <%= link_to images_location_path(@location, image_id: image.id.to_s) do %>
+                    <%= image_tag(
+                      @location.thumb_path(image), 
+                      class: "img-fluid mb-4", 
+                      style: 'width:100%;') 
+                    %>
+                  <% end %>
+                <% end %>
+                <div class="image-actions">
+                  <i class="fas fa-pencil-alt" data-bs-toggle="modal" data-bs-target="#edit-<%= attachment.id %>"></i>
+
+                  <%= link_to attachment_path(attachment, location_id: @location.id), 
+                    method: :delete,
+                    data: { confirm: 'Are you sure? This cannot be undone.' 
+                  } do %>
+                    <i class="fas fa-times"></i>
+                  <% end %>
+                </div>
+
+                <% if attachment.description %>
+                  <div class="image_description_container" >
+                    <div class="image_description">
+                      <%= attachment.description %>
+                    </div>
+                  </div>
+                <% end %>
+
+                <!-- Modal -->
+                <div class="modal fade" id="edit-<%= attachment.id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit image</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <%= form_for attachment, url: attachment_path(attachment), method: :put do |f| %>
+                        <div class="modal-body">
+                          <%= f.text_area :description, value: attachment.description  %><br>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <%= f.submit 'Submit', class: 'btn btn-sm btn-outline-secondary' %>
+                        </div>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      <!-- <%# if @location.images.attached? %>
+        <%# @location.images.each do |image| %>
+          <div class="col-lg-4 mb-4">
+            <%#= link_to images_location_path(@location, image_id: image.id.to_s) do %>
+              <%#= image_tag(@location.thumb_path(image), style: 'width:100%;') %>
+            <%# end %>
+          </div>
+        <%# end %>
+      <%# end %> -->
+      </div>
+    </div>
+  </div>
