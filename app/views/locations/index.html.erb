@@ -50,9 +50,10 @@
                   alt=""
                 />
               <% elsif loc.attachments.any? && loc.attachments.last.image.attached? %>
+                <% image = loc.attachments.where(default: true).first&.image || loc.attachments.last&.image %>
                 <%= image_tag(
-                  loc.thumb_path(loc.attachments.last.image),
-                  class: "img-fluid mb-4", style: 'width:100%;') 
+                  loc.thumb_path(image),
+                  class: "img-fluid mb-4", style: 'width:100%;')
                 %>
               <% end %>
 

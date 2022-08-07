@@ -24,18 +24,18 @@
                 <%= link_to location_path(@location) do %>
                   <%= link_to images_location_path(@location, image_id: image.id.to_s) do %>
                     <%= image_tag(
-                      @location.thumb_path(image), 
-                      class: "img-fluid mb-4", 
-                      style: 'width:100%;') 
+                      @location.thumb_path(image),
+                      class: "img-fluid mb-4",
+                      style: 'width:100%;')
                     %>
                   <% end %>
                 <% end %>
                 <div class="image-actions">
                   <i class="fas fa-pencil-alt" data-bs-toggle="modal" data-bs-target="#edit-<%= attachment.id %>"></i>
 
-                  <%= link_to attachment_path(attachment, location_id: @location.id), 
+                  <%= link_to attachment_path(attachment, location_id: @location.id),
                     method: :delete,
-                    data: { confirm: 'Are you sure? This cannot be undone.' 
+                    data: { confirm: 'Are you sure? This cannot be undone.'
                   } do %>
                     <i class="fas fa-times"></i>
                   <% end %>
@@ -59,6 +59,10 @@
                       </div>
                       <%= form_for attachment, url: attachment_path(attachment), method: :put do |f| %>
                         <div class="modal-body">
+                          <%= f.label :default do %>
+                            <%= f.check_box :default %> Default image
+                          <% end %>
+
                           <%= f.text_area :description, value: attachment.description  %><br>
                         </div>
                         <div class="modal-footer">
