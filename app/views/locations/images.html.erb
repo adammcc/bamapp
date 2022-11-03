@@ -6,9 +6,9 @@
     <div class="col-md-12">
       <%= link_to 'Back', location_path(@location) %>
     </div>
-    <div id="image-carousel" 
-      class="carousel slide" 
-      data-interval="false" 
+    <div id="image-carousel"
+      class="carousel slide"
+      data-interval="false"
     >
       <div class="carousel-inner">
         <% @attachments.each_with_index do |attch| %>
@@ -21,19 +21,19 @@
           </div>
         <% end %>
       </div>
-      <a 
-        class="carousel-control-prev" 
-        href="#image-carousel" 
-        role="button" 
+      <a
+        class="carousel-control-prev"
+        href="#image-carousel"
+        role="button"
         data-slide="prev"
       >
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="sr-only">Previous</span>
       </a>
-      <a 
-        class="carousel-control-next" 
-        href="#image-carousel" 
-        role="button" 
+      <a
+        class="carousel-control-next"
+        href="#image-carousel"
+        role="button"
         data-slide="next"
       >
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
@@ -42,5 +42,3 @@
     </div>
   </div>
 </div>
-
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
